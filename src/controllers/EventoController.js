@@ -1,5 +1,5 @@
-const Evento = require('../models/Evento')
-
+const Evento = require('../models/Evento');
+const Participante = require('../models/Participante');
 
 const EventoController = {
     create : async(req,res) => {
@@ -90,6 +90,22 @@ const EventoController = {
             res.status(400).json({
                 msg : "Contate o suporte"
             })
+        }
+    },
+    getByParticipantes : async (req,res) => {
+        try {
+            const {id} = req.params;
+
+            const participantes = await Participante.findAll({where : {evento_id : id}});
+            
+            res.status(200).json({
+                participantes
+            })
+        } catch (error) {
+            console.error(error)
+            res.status(400).json({
+                msg : "Contate o suporte"
+            }) 
         }
     }
 }

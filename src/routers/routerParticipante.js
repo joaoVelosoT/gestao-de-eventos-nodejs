@@ -5,7 +5,9 @@ const router = Router();
 
 
 
-
+router.get('/por-evento/:id_evento', (req,res)=> {
+    ParticipanteController.getByEvento(req,res);
+})
 
 router.post('/', ValidateParticipante, (req,res)=> {
     ParticipanteController.create(req,res);

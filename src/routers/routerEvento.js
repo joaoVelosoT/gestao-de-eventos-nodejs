@@ -29,7 +29,7 @@ router.delete('/:id', (req,res) => {
 })
 
 router.get('/:id/participante', (req,res) => {
-    EventoController.getPar
+    EventoController.getByParticipantes(req,res);
 })
 
 

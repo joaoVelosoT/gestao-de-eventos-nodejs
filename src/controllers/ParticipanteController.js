@@ -1,4 +1,6 @@
-const Participante = require('../models/Participante')
+const Participante = require('../models/Participante');
+const { get } = require('../routers/routerEvento');
+const { getAll } = require('./eventoController');
 
 
 const ParticipanteController = {
@@ -104,7 +106,24 @@ const ParticipanteController = {
                 msg : "Contate o suporte"
             })
         }
+    },
+    getByEvento : async (req,res) => {
+        try {
+            const {id_evento} = req.params;
+
+            const participantes = await Participante.findAll({where : {evento_id : id_evento}});
+
+            res.status(200).json({
+                participantes
+            })
+        } catch (error) {
+            console.error(error)
+            res.status(400).json({
+                msg : "Contate o suporte"
+            })
+        }
     }
+
 }
 
 
