@@ -43,10 +43,22 @@ const EventoController = {
             const {id} = req.params
             const evento= await Evento.findByPk(id);
 
+            if(isNaN(id)){
+                return res.status(400).json({
+                    msg : "O parametro não e um número"
+                })
+            }
 
-            res.status(200).json({
+            if(!evento){
+                return res.status(400).json({
+                    msg : "Evento não encontrado"
+                })
+            }
+
+            return res.status(200).json({
                 evento
             })
+            
         } catch (error) {
             res.status(400).json({
                 msg : "Contate o suporte"

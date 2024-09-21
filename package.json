@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev" : "nodemon ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -11,9 +11,11 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "express": "^4.21.0",
     "mysql2": "^3.11.3",
     "nodemon": "^3.1.6",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "validator": "^13.12.0"
   }
 }
