@@ -116,7 +116,11 @@ const EventoController = {
             const {id} = req.params;
 
             const participantes = await Participante.findAll({where : {evento_id : id}});
-            
+            if(participantes.length === 0){
+                return res.status(500).json({
+                    msg : "Não existe esse evento, ou não tem nenhum participante cadastrado nele"
+                })
+            }
             res.status(200).json({
                 participantes
             })

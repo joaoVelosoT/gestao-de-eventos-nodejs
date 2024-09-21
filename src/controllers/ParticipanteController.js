@@ -1,3 +1,4 @@
+const Evento = require('../models/Evento');
 const Participante = require('../models/Participante');
 const { get } = require('../routers/routerEvento');
 const { getAll } = require('./eventoController');
@@ -12,7 +13,13 @@ const ParticipanteController = {
             const existeEmail = await Participante.findOne({ where : { email : email}});
             console.log("existe ?",existeEmail)
 
+            const evento = await Evento.findOne({where : {id : evento_id}});
             
+            if(!evento){
+                return res.status(400).json({
+                    msg : 'Envie um evento existente'
+                })
+            }
 
             if(existeEmail){
                 return res.status(400).json({
@@ -74,7 +81,20 @@ const ParticipanteController = {
             const {nome, email, evento_id} = req.body
 
             const participante = await Participante.findByPk(id)
+            if(!participante){
+                res.status(400).json({
+                    msg : "Não foi encontrado o participante"
+                })
+            }
 
+            const evento = await Evento.findOne({where : {id : evento_id}});
+            
+            if(!evento){
+                return res.status(400).json({
+                    msg : 'Envie um evento existente'
+                })
+            }
+            
             await participante.update({nome, email, evento_id});
 
             res.status(200).json({
@@ -93,7 +113,11 @@ const ParticipanteController = {
             const {id} = req.params;
 
             const participante = await Participante.findByPk(id);
-            
+            if(!participante){
+                return res.status(400).json({
+                    msg : "Não foi encontrado o participante"
+                })
+            }
             await participante.destroy();
 
 
@@ -111,7 +135,19 @@ const ParticipanteController = {
         try {
             const {id_evento} = req.params;
 
+            if(isNaN(id_evento)){
+                return res.status(400).json({
+                    msg : "O parametro não e um número"
+                })
+            }
+
             const participantes = await Participante.findAll({where : {evento_id : id_evento}});
+
+            if(participantes.length === 0){
+                return res.status(500).json({
+                    msg : "Não existe esse evento, ou não tem nenhum participante cadastrado nele"
+                })
+            }
 
             res.status(200).json({
                 participantes

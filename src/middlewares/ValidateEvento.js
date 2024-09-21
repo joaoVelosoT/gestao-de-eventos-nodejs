@@ -27,7 +27,7 @@ const ValidateEvento = (req,res,next) => {
     }
     
 
-    if(nome.trim().length < 3){
+    if(nome.trim().lenght < 3){
         return res.status(500).json({
             msg : "O nome tem que ter mais de 3 caracteres"
         })
