@@ -43,11 +43,7 @@ const EventoController = {
             const {id} = req.params
             const evento= await Evento.findByPk(id);
 
-            if(isNaN(id)){
-                return res.status(400).json({
-                    msg : "O parametro não e um número"
-                })
-            }
+            
 
             if(!evento){
                 return res.status(400).json({
@@ -58,7 +54,7 @@ const EventoController = {
             return res.status(200).json({
                 evento
             })
-            
+
         } catch (error) {
             res.status(400).json({
                 msg : "Contate o suporte"
@@ -72,6 +68,13 @@ const EventoController = {
             const {nome, data, localizacao} = req.body
 
             const evento = await Evento.findByPk(id)
+
+            if(!evento){
+                return res.status(400).json({
+                    msg : "Evento não encontrado"
+                })
+            }
+
             await evento.update({nome, data, localizacao});
 
             res.status(200).json({
@@ -90,7 +93,11 @@ const EventoController = {
             const {id} = req.params;
 
             const evento = await Evento.findByPk(id);
-            
+            if(!evento){
+                return res.status(400).json({
+                    msg : "Evento não encontrado"
+                })
+            }
             await evento.destroy();
 
 
